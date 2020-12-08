@@ -1,8 +1,8 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
-#include <unistd.h> 
-#include <sys/types.h> 
+#include <unistd.h>
+#include <sys/types.h>
 
 // variáveis universais
 char user_input[100];
@@ -18,30 +18,52 @@ void init_shell(){
 //função para imprimir o diretório
 void print_dir(){
     char cwd[1024];
-    getcwd(cwd, sizeof(cwd)); 
+    getcwd(cwd, sizeof(cwd));
     printf("\nDir: %s", cwd);
+}
+
+void printHelp(){
+    printf(
+        "\n**********COMANDOS SUPORTADOS ATÉ O MOMENTO**********\n"
+        "ls\nexit\nhelp\nhello\n"
+    );
 }
 
 //ou a função de pedir o comando
 void print_msg(){
-    printf(">>>Qual o seu comando? ");
+    printf("Sim, mestre? ");
 }
 
 void get_input(){
     scanf(" %[^\n]", user_input);
 }
-void exe_command(char *token){
+void exe_command(char* token){
     char *list_cmd[4];
+    char *username;
+
     //quais serão os comandos??
     list_cmd[0] = "exit";
     list_cmd[1] = "ls";
     list_cmd[2] = "help";
     list_cmd[3] = "hello";
-    
+
     //depois mudar para swicth case
     if(strcmp(token, list_cmd[0]) == 0){
         printf("\n>>>Tchauzinho\n");
         exit(1); //termina o programa
+    }
+    
+    if(strcmp(token, list_cmd[1]) == 0){
+        chdir(token);
+    }
+
+    if(strcmp(token, list_cmd[2]) == 0){
+        printHelp();
+    }
+
+    if(strcmp(token, list_cmd[3]) == 0){
+        username = getenv("USER");
+        printf("Hello %s, are you ok?\n", username);
     }
 
 }
@@ -56,12 +78,12 @@ void parse_command(){
     char *token;
     token = strtok(user_input," ");
     exe_command(token);
-    while (token){       
+    while (token){
         //printf("%s\n", token);
         exe_parameter();
         token = strtok(NULL, " ");
     }
-    
+
 }
 
 
@@ -73,6 +95,6 @@ int main(){
         get_input();
         parse_command();
     }
-    
+
     return 0;
 }
