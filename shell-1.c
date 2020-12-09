@@ -49,7 +49,7 @@ void exe_command(char* token){
 
     //depois mudar para swicth case
     if(strcmp(token, list_cmd[0]) == 0){
-        printf("\n>>>Tchauzinho\n");
+        printf("\nAdeus Mestre\n");
         exit(1); //termina o programa
     }
     
