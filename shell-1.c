@@ -38,7 +38,7 @@ void get_input(){
     scanf(" %[^\n]", user_input);
 }
 void exe_command(char* token){
-    char *list_cmd[4];
+    char *list_cmd[5];
     char *username;
 
     //quais serão os comandos??
@@ -46,6 +46,7 @@ void exe_command(char* token){
     list_cmd[1] = "ls";
     list_cmd[2] = "help";
     list_cmd[3] = "hello";
+    list_cmd[4] = "cd";
 
     //depois mudar para swicth case
     if(strcmp(token, list_cmd[0]) == 0){
