@@ -99,6 +99,7 @@ void findPipe(char *user_input){
     //printf("%s\n", pipes);
     if (pipes){  
         printf("%s\n", pipes);
+        //executar, pode ser um simples ou não
         
     }else{
         printf("1");
