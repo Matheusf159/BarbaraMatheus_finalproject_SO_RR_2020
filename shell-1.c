@@ -93,15 +93,17 @@ void exe_parameter(){
 void findPipe(char *user_input){
     char *pipes;
     char *command;
-    pipes = strchr(user_input, '|') + 1; //pega a 2 segunda parte
     command = strtok(user_input, "|"); //pega a primeira parte
-    printf("%s\n", pipes);
-    if (*pipes != NULL){  //ele fica entrando aqui msm qnd n devia
+    pipes = strtok(NULL,""); //pega a segunda parte
+    //printf("%s\n", command);
+    //printf("%s\n", pipes);
+    if (pipes){  
         printf("%s\n", pipes);
+        
     }else{
         printf("1");
         //tirar espaço
-        command = strtok(*command, " ");
+        command = strtok(command, " ");
         exe_command(command);
     }
     //printf("%s\n", pipes);
