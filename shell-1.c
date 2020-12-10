@@ -8,7 +8,7 @@
 #include <dirent.h>
 
 // variáveis universais
-#define MAX 100
+#define MAX 100 
 //***************
 
 
@@ -55,7 +55,7 @@ void exe_command(char* token, char* arg){
         printf("\nAdeus Mestre\n");
         exit(1); //termina o programa
     }
-
+    
     if(strcmp(token, list_cmd[1]) == 0){ // esse aqui nao ta funcionando
         //printf("%s\n", arg);
         chdir(arg);
@@ -66,7 +66,6 @@ void exe_command(char* token, char* arg){
     }
 
     if(strcmp(token, list_cmd[3]) == 0){
-<<<<<<< HEAD
         #ifdef LINUX
         username = getenv("USER");
         #elif defined WIN32
@@ -75,9 +74,6 @@ void exe_command(char* token, char* arg){
         printf("ERROR");
         #endif
 
-=======
-        username = getenv("USERNAME");
->>>>>>> master
         printf("Hello %s, are you ok?\n", username);
 
     }
@@ -110,10 +106,10 @@ void findPipe(char *user_input){
     pipes = strtok(NULL,""); //pega a segunda parte
     //printf("%s\n", command);
     //printf("%s\n", pipes);
-    if (pipes){
+    if (pipes){  
         printf("%s\n", pipes);
         //executar, pode ser um simples ou não
-
+        
     }else{
         //printf("1");
         //tirar espaço
@@ -129,9 +125,9 @@ void findPipe(char *user_input){
 /*void parse_command(char *user_input){
     //printf("%s\n", user_input);
     char *token;
-
+    
     token = strtok(user_input," ");
-
+    
     exe_command(token);
     while (token){
         //printf("%s\n", token);
