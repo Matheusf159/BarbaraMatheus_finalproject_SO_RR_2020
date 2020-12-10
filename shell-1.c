@@ -39,7 +39,7 @@ void print_msg(){
 void get_input(char* user_input){
     scanf(" %[^\n]", user_input);
 }
-void exe_command(char* token){
+void exe_command(char* token, char* arg){
     char *list_cmd[5];
     char *username;
 
@@ -57,7 +57,8 @@ void exe_command(char* token){
     }
     
     if(strcmp(token, list_cmd[1]) == 0){ // esse aqui nao ta funcionando
-        chdir(*token);
+        //printf("%s\n", arg);
+        chdir(arg);
     }
 
     if(strcmp(token, list_cmd[2]) == 0){
@@ -102,10 +103,13 @@ void findPipe(char *user_input){
         //executar, pode ser um simples ou não
         
     }else{
-        printf("1");
+        //printf("1");
         //tirar espaço
-        command = strtok(command, " ");
-        exe_command(command);
+        char *arg;
+        command = strtok(command, " "); //primeira parte
+        arg = strtok(NULL,""); //segunda parte
+        //printf("%s\n", arg);
+        exe_command(command, arg);
     }
     //printf("%s\n", pipes);
 }
