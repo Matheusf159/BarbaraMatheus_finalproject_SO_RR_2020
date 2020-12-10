@@ -26,8 +26,8 @@ void print_dir(){
 
 void printHelp(){
     printf(
-        "\n**********COMANDOS SUPORTADOS ATÉ O MOMENTO**********\n"
-        "ls\nexit\nhelp\nhello\n"
+        "\n**********COMANDOS SUPORTADOS ATE O MOMENTO**********\n"
+        "ls\nexit\nhelp\nhello\ncd\nS"
     );
 }
 
@@ -66,8 +66,16 @@ void exe_command(char* token, char* arg){
     }
 
     if(strcmp(token, list_cmd[3]) == 0){
+        #ifdef LINUX
         username = getenv("USER");
+        #elif defined WIN32
+        username = getenv("USERNAME");
+        #else
+        printf("ERROR");
+        #endif
+
         printf("Hello %s, are you ok?\n", username);
+
     }
 
     if(strcmp(token, list_cmd[4]) == 0){
