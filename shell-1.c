@@ -39,7 +39,7 @@ void print_msg(){
 void get_input(char* user_input){
     scanf(" %[^\n]", user_input);
 }
-void exe_command(char* token, char* arg){
+int  exe_command(char* token, char* arg){
     char *list_cmd[5];
     char *username;
 
@@ -54,18 +54,18 @@ void exe_command(char* token, char* arg){
     if(strcmp(token, list_cmd[0]) == 0){
         printf("\nAdeus Mestre\n");
         exit(1); //termina o programa
-    }
-    
-    if(strcmp(token, list_cmd[1]) == 0){ // esse aqui nao ta funcionando
+        return 1;
+
+    }else if(strcmp(token, list_cmd[1]) == 0){ // esse aqui nao ta funcionando
         //printf("%s\n", arg);
         chdir(arg);
-    }
+        return 1;
 
-    if(strcmp(token, list_cmd[2]) == 0){
+    }else if(strcmp(token, list_cmd[2]) == 0){
         printHelp();
-    }
+        return 1;
 
-    if(strcmp(token, list_cmd[3]) == 0){
+    }else if(strcmp(token, list_cmd[3]) == 0){
         #ifdef LINUX
         username = getenv("USER");
         #elif defined WIN32
@@ -75,10 +75,9 @@ void exe_command(char* token, char* arg){
         #endif
 
         printf("Hello %s, are you ok?\n", username);
+        return 1;
 
-    }
-
-    if(strcmp(token, list_cmd[4]) == 0){
+    }else if(strcmp(token, list_cmd[4]) == 0){
         DIR *dirp;
         struct dirent *dp;
         struct stat statbuf;
@@ -90,37 +89,61 @@ void exe_command(char* token, char* arg){
             stat(dp->d_name, &statbuf);
             printf("%s\n", dp->d_name);
         }
+        return 1;
 
-
+    }else{
+        return 0;
     }
 
 }
+/*
+void simplesCMD(char* command) 
+{ 
+    // Forking a child 
+    pid_t pid = fork();  
+  
+    if (pid == -1) { 
+        printf("\nFailed forking child.."); 
+        return; 
+    } else if (pid == 0) { 
+        if (execvp(parsed[0], parsed) < 0) { 
+            printf("\nCould not execute command.."); 
+        } 
+        exit(0); 
+    } else { 
+        // waiting for child to terminate 
+        wait(NULL);  
+        return; 
+    } 
+} */
 
-void exe_parameter(){
-
-}
 void findPipe(char *user_input){
     char *pipes;
     char *command;
     command = strtok(user_input, "|"); //pega a primeira parte
     pipes = strtok(NULL,""); //pega a segunda parte
-    //printf("%s\n", command);
-    //printf("%s\n", pipes);
+
     if (pipes){  
         printf("%s\n", pipes);
-        //executar, pode ser um simples ou não
+        //executa pipe
+        //exePipe(command, pipes);
         
     }else{
-        //printf("1");
         //tirar espaço
-        char *arg;
-        command = strtok(command, " "); //primeira parte
-        arg = strtok(NULL,""); //segunda parte
-        //printf("%s\n", arg);
-        exe_command(command, arg);
+        char *arg[MAX];
+        int isbuiltin = 0;
+        arg[0] = strtok(command, " "); //primeira parte
+        for (int i=1; i<MAX;i++){
+            arg[i] = strtok(NULL," "); //resto
+        }
+        //ve se é um comando builtin
+        isbuiltin = exe_command(arg[0], arg[1]);
+        if(!isbuiltin){
+            //executa comando
+            //simpleCMD(arg);
+        }
     }
-    //printf("%s\n", pipes);
-}
+
 //primeiro token vai ser um comando, os outros são parametros
 /*void parse_command(char *user_input){
     //printf("%s\n", user_input);
