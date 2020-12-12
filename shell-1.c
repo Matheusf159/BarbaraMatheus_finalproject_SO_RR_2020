@@ -140,7 +140,7 @@ void exePipe(char** listcmd, char** listpipe)
         dup2(pipefd[1], STDOUT_FILENO); 
         close(pipefd[1]); 
   
-        if (execvp(listcomd[0], listcmd) < 0) { 
+        if (execvp(listcmd[0], listcmd) < 0) { 
             printf("\nCould not execute command 1.."); 
             exit(0); 
         } 
@@ -205,7 +205,7 @@ void findPipe(char *user_input){
         isbuiltin = exe_command(arg[0], arg[1]);
         if(!isbuiltin){
             //executa comando
-            simpleCMD(arg);
+            simplesCMD(arg);
         }
     }
 
@@ -224,7 +224,7 @@ void findPipe(char *user_input){
     }
 
 }*/
-
+}
 
 int main(){
     char user_input[MAX];
