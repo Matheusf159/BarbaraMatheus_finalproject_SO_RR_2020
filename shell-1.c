@@ -67,9 +67,9 @@ int  exe_command(char* token, char* arg){
         return 1;
 
     }else if(strcmp(token, list_cmd[3]) == 0){
-        #ifdef LINUX
+        #ifdef __linux__
         username = getenv("USER");
-        #elif defined WIN32
+        #elif defined _WIN32
         username = getenv("USERNAME");
         #else
         printf("ERROR");
