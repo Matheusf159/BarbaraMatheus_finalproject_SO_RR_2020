@@ -51,14 +51,12 @@ int  exe_command(char* token, char* arg){
     list_cmd[3] = "hello";
     list_cmd[4] = "ls";
 
-    //depois mudar para swicth case
     if(strcmp(token, list_cmd[0]) == 0){
         printf("\nAdeus Mestre\n");
         exit(1); //termina o programa
         return 1;
 
-    }else if(strcmp(token, list_cmd[1]) == 0){ // esse aqui nao ta funcionando
-        //printf("%s\n", arg);
+    }else if(strcmp(token, list_cmd[1]) == 0){ 
         chdir(arg);
         return 1;
 
