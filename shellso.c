@@ -28,7 +28,7 @@ void print_dir(){
 void printHelp(){
     printf(
         "\n**********COMANDOS SUPORTADOS ATE O MOMENTO**********\n"
-        "ls\nexit\nhelp\nhello\ncd\nS"
+        "ls\nfim\nhelp\nhello\ncd\nS"
     );
 }
 
@@ -45,7 +45,7 @@ int  exe_command(char* token, char* arg){
     char *username;
 
     //quais serão os comandos??
-    list_cmd[0] = "exit";
+    list_cmd[0] = "fim";
     list_cmd[1] = "cd";
     list_cmd[2] = "help";
     list_cmd[3] = "hello";
