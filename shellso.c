@@ -176,7 +176,7 @@ int find_red(char *user_input){ //função para achar e tratar redirecionamentos
     all_args[0] = strtok(user_input, " ");
     for (i = 1; i<MAX; i++){
         all_args[i] = strtok(NULL, " "); //pega tudo que foi escrito pelo usuário e divide na lista por espaço
-        if (strcmp(all_args[i], "<=") == 0 || strcmp(all_args[i], "=>") == 0){
+        if ((strcmp(all_args[i], "<=") == 0) || (strcmp(all_args[i], "=>")) == 0){
             flag = 1;
         }
     }
