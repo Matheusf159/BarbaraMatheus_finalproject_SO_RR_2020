@@ -169,83 +169,95 @@ void exePipe(char** listcmd, char** listpipe)
         } 
     } 
 } 
-void find_red(char *user_input){
+int find_red(char *user_input){ //função para achar e tratar redirecionamentos
     char *all_args[MAX];
     int i, j = 1;
+    int flag = 0;
     all_args[0] = strtok(user_input, " ");
     for (i = 1; i<MAX; i++){
         all_args[i] = strtok(NULL, " "); //pega tudo que foi escrito pelo usuário e divide na lista por espaço
-    }
-    while(all_args[j]!= NULL){
-        if(strcmp(all_args[j], "<=") == 0){
-            int inp = open(all_args[j+1], O_RDONLY);
-            if(inp < 0){
-                perror("minsh");
-            }else if(dup2(inp, 0)<0){
-                perror("minsh");
-            }else{
-                close(inp);
-                all_args[j] = NULL;
-                all_args[j+1] = NULL;
-                j+= 2;
-            }
-            
-        }else if(strcmp(all_args[j], "=>") == 0){
-            int out = open(all_args[j+1], O_WRONLY|_O_TRUNC|O_CREAT, 0755);
-            if( out < 0){
-                perror("minsh");
-            }else if( dup2(out, 1) < 0){
-                perror("minsh");
-            }else{
-                close(out);
-                all_args[j] = NULL;
-                all_args[j + 1] = NULL;
-                j += 2;
-            }
-            
-        }else{
-            j++;
+        if (strcmp(all_args[i], "<=") == 0 || strcmp(all_args[i], "=>") == 0){
+            flag = 1;
         }
     }
+    if (flag == 1){
+        while(all_args[j]!= NULL){
+            if(strcmp(all_args[j], "<=") == 0){
+                int inp = open(all_args[j+1], O_RDONLY);
+                if(inp < 0){
+                    perror("minsh");
+                }else if(dup2(inp, 0)<0){
+                    perror("minsh");
+                }else{
+                    close(inp);
+                    all_args[j] = NULL;
+                    all_args[j+1] = NULL;
+                    j+= 2;
+                }
+                
+            }else if(strcmp(all_args[j], "=>") == 0){
+                int out = open(all_args[j+1], O_WRONLY|_O_TRUNC|O_CREAT, 0755);
+                if( out < 0){
+                    perror("minsh");
+                }else if( dup2(out, 1) < 0){
+                    perror("minsh");
+                }else{
+                    close(out);
+                    all_args[j] = NULL;
+                    all_args[j + 1] = NULL;
+                    j += 2;
+                }
+                
+            }else{
+                j++;
+            }
+        }
+    }
+    return flag;
+    
 
 }
 void findPipe(char *user_input){
     char *pipes;
     char *command;
-    find_red(user_input);
-    command = strtok(user_input, "|"); //pega a primeira parte
-    pipes = strtok(NULL,""); //pega a segunda parte
+    int isRed;
+    isRed = find_red(user_input);
+    if(!isRed){
+        command = strtok(user_input, "|"); //pega a primeira parte
+        pipes = strtok(NULL,""); //pega a segunda parte
 
-    if (pipes){  
-        char *listpipes[MAX];
-        char *listcmd[MAX];
-        //retirar espaços
-        listcmd[0] = strtok(command, " ");
-        listpipes[0] = strtok(pipes, " ");
-        for (int i=1; i<MAX;i++){
-            listcmd[i] = strtok(NULL," "); //resto
-            listpipes[i] = strtok(NULL, " ");
-            //OBS: tem q colocar uma condição de parada para caso não haja mais elementos
-            //ele não precisar procurar até o fim de MAX
-        }
-        //executa pipe
-        exePipe(listcmd, listpipes);
-        
-    }else{
-        //tirar espaço
-        char *arg[MAX];
-        int isbuiltin = 0;
-        arg[0] = strtok(command, " "); //primeira parte
-        for (int i=1; i<MAX;i++){
-            arg[i] = strtok(NULL," "); //resto
-        }
-        //ve se é um comando builtin
-        isbuiltin = exe_command(arg[0], arg[1]);
-        if(!isbuiltin){
-            //executa comando
-            simplesCMD(arg);
+        if (pipes){  
+            char *listpipes[MAX];
+            char *listcmd[MAX];
+            //retirar espaços
+            listcmd[0] = strtok(command, " ");
+            listpipes[0] = strtok(pipes, " ");
+            for (int i=1; i<MAX;i++){
+                listcmd[i] = strtok(NULL," "); //resto
+                listpipes[i] = strtok(NULL, " ");
+                //OBS: tem q colocar uma condição de parada para caso não haja mais elementos
+                //ele não precisar procurar até o fim de MAX
+            }
+            //executa pipe
+            exePipe(listcmd, listpipes);
+            
+        }else{
+            //tirar espaço
+            char *arg[MAX];
+            int isbuiltin = 0;
+            arg[0] = strtok(command, " "); //primeira parte
+            for (int i=1; i<MAX;i++){
+                arg[i] = strtok(NULL," "); //resto
+            }
+            //ve se é um comando builtin
+            isbuiltin = exe_command(arg[0], arg[1]);
+            if(!isbuiltin){
+                //executa comando
+                simplesCMD(arg);
+            }
         }
     }
+    
 }
 
 int main(){
