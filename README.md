@@ -6,7 +6,7 @@
 
 <p><strong>1 - Baixe o arquivo shellso.c</strong></p>
 
-<p><strong>2 - Abrea o terminal e compile o código:</strong></p>
+<p><strong>2 - Abra o terminal do LINUX e compile o código:</strong></p>
 gcc -o shellso shellso.c </br></br>
 
 <p><strong>3 - Execute-o com:</strong></p>
