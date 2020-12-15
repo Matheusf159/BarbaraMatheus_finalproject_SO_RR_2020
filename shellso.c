@@ -220,8 +220,8 @@ int find_red(char *user_input){ //função para achar e tratar redirecionamentos
 void findPipe(char *user_input){
     char *pipes;
     char *command;
-    int isRed;
-    isRed = find_red(user_input);
+    int isRed = 0;
+    isRed = find_red(user_input); //retorna 0 se n tiver redirecionamento, e 1 se tiver
     if(!isRed){
         command = strtok(user_input, "|"); //pega a primeira parte
         pipes = strtok(NULL,""); //pega a segunda parte
