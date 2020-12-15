@@ -3,7 +3,7 @@
 #include <string.h>
 #include <unistd.h>
 #include <sys/types.h>
-//#include <sys/wait.h>
+#include <sys/wait.h>
 #include <sys/stat.h>
 #include <stdint.h>
 #include <dirent.h>
@@ -29,7 +29,7 @@ void print_dir(){
 void printHelp(){
     printf(
         "\n**********COMANDOS SUPORTADOS ATE O MOMENTO**********\n"
-        "ls\nfim\nhelp\nhello\ncd\nS"
+        "ls\nfim\nhelp\nhello\ncd\n"
     );
 }
 
@@ -196,7 +196,7 @@ int find_red(char *user_input){ //função para achar e tratar redirecionamentos
                 }
                 
             }else if(strcmp(all_args[j], "=>") == 0){
-                int out = open(all_args[j+1], O_WRONLY|_O_TRUNC|O_CREAT, 0755);
+                int out = open(all_args[j+1], O_WRONLY|O_TRUNC|O_CREAT, 0755);
                 if( out < 0){
                     perror("minsh");
                 }else if( dup2(out, 1) < 0){
@@ -221,7 +221,7 @@ void findPipe(char *user_input){
     char *pipes;
     char *command;
     int isRed = 0;
-    isRed = find_red(user_input); //retorna 0 se n tiver redirecionamento, e 1 se tiver
+    //isRed = find_red(user_input); //retorna 0 se n tiver redirecionamento, e 1 se tiver
     if(!isRed){
         command = strtok(user_input, "|"); //pega a primeira parte
         pipes = strtok(NULL,""); //pega a segunda parte
