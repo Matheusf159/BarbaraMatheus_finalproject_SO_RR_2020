@@ -194,10 +194,8 @@ void find_red(char *user_input){
             int out = open(all_args[j+1], O_WRONLY|_O_TRUNC|O_CREAT, 0755);
             if( out < 0){
                 perror("minsh");
-                return 1;
             }else if( dup2(out, 1) < 0){
                 perror("minsh");
-                return 1;
             }else{
                 close(out);
                 all_args[j] = NULL;
