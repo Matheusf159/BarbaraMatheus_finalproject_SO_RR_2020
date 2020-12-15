@@ -7,6 +7,7 @@
 #include <sys/stat.h>
 #include <stdint.h>
 #include <dirent.h>
+#include <fcntl.h>
 
 // variáveis universais
 #define MAX 100 
@@ -168,10 +169,53 @@ void exePipe(char** listcmd, char** listpipe)
         } 
     } 
 } 
+int find_red(char **user_input){
+    char *all_args[];
+    int i, j = 1;
+    all_args[0] = strtok(user_input, " ");
+    for (i = 1; i<MAX; i++){
+        all_args[i] = strtok(NULL, " "); //pega tudo que foi escrito pelo usuário e divide na lista por espaço
+    }
+    while(all_args[i]!= NULL){
+        if(strcmp(all_args[i], "<=") == 0){
+            int inp = open(all_args[i+1], O_RDONLY);
+            if(inp < 0){
+                perror("minsh");
+                return 1;
+            }
+            if(dup2(inp, 0)<0){
+                perror("minsh");
+                return 1;
+            }
+            close(inp);
+            all_args[i] = NULL;
+            all_args[i+1] = NULL;
+            i+= 2;
+        }else if(strcmp(all_args[i], "=>") == 0){
+            int out = open(all_args[i+1], O_WRONLY|_O_TRUNC|O_CREAT, 0755);
+            if( out < 0){
+                perror("minsh");
+                return 1;
+            }
+            if( dup2(out, 1) < 0){
+                perror("minsh");
+                return 1;
+            }
+            close(out);
+            all_args[i] = NULL;
+            all_args[i + 1] = NULL;
+            i += 2;
+        }else{
+            i++;
+        }
+    }
 
+}
 void findPipe(char *user_input){
     char *pipes;
     char *command;
+    int isRED = 0;
+    isRED = find_red(user_input);
     command = strtok(user_input, "|"); //pega a primeira parte
     pipes = strtok(NULL,""); //pega a segunda parte
 
