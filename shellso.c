@@ -136,7 +136,7 @@ void exePipe(char** listcmd, char** listpipe)
         // Child 1 executing.. 
         // It only needs to write at the write end 
         close(pipefd[0]); 
-        dup2(pipefd[1], STDOUT_FILENO); 
+        dup2(pipefd[1], STDOUT_FILENO); //cria uma cópia
         close(pipefd[1]); 
   
         if (execvp(listcmd[0], listcmd) < 0) { 
@@ -235,8 +235,6 @@ void findPipe(char *user_input){
             for (int i=1; i<MAX;i++){
                 listcmd[i] = strtok(NULL," "); //resto
                 listpipes[i] = strtok(NULL, " ");
-                //OBS: tem q colocar uma condição de parada para caso não haja mais elementos
-                //ele não precisar procurar até o fim de MAX
             }
             //executa pipe
             exePipe(listcmd, listpipes);
@@ -264,12 +262,10 @@ int main(){
     char user_input[MAX];
     init_shell();
     while(1){
-        //print_dir();
         print_msg();
         get_input(user_input);
         //ver se tem pipe
         findPipe(user_input);
-        //parse_command(user_input);
     }
 
     return 0;
